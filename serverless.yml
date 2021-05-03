@@ -14,17 +14,13 @@ provider:
   environment: ${self:custom.settings}
   region: us-east-2
   iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - dynamodb:DescribeTable
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource:
-        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.COLUMNS_TABLE}"
-        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.CARDS_TABLE}"
+    - ${file(iam/ColumnsTableIAM.yml):ColumnsTableIAM}
+    - ${file(iam/CardsTableIAM.yml):CardsTableIAM}
+
+resources:
+  Resources:
+    ColumnsTable: ${file(resources/ColumnsTable.yml):ColumnsTable}
+    CardsTable: ${file(resources/CardsTable.yml):CardsTable}
 
 functions:
   createColumn:
@@ -97,34 +93,6 @@ functions:
           path: /card/{id}
           method: DELETE
 
-resources:
-  Resources:
-    ColumnsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-        - AttributeName: "id"
-          AttributeType: "S"
-        KeySchema:
-        - AttributeName: "id"
-          KeyType: "HASH"
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:custom.settings.COLUMNS_TABLE}
-    CardsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-        - AttributeName: "id"
-          AttrbuteType: "S"
-        KeySchema:
-        - AttributeName: "id"
-          KeyType: "HASH"
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:custom.settings.CARDS_TABLE}
 
 plugins:
   - serverless-offline
