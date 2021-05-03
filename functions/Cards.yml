@@ -1,0 +1,34 @@
+createCard:
+  handler: handler.createCard
+  events:
+    - http:
+        path: /card
+        method: POST
+
+getCards:
+  handler: handler.getCards
+  events:
+    - http:
+        path: /cards
+        method: GET
+
+getCard:
+  handler: handler.getCard
+  events:
+    - http:
+        path: /card/{id}
+        method: GET
+
+updateCard:
+  handler: handler.updateCard
+  events:
+    - http:
+        path: /card/{id}
+        method: PUT
+
+deleteCard:
+  handler: handler.deleteCard
+  events:
+    - http:
+        path: /card/{id}
+        method: DELETE

@@ -23,75 +23,17 @@ resources:
     CardsTable: ${file(resources/CardsTable.yml):CardsTable}
 
 functions:
-  createColumn:
-    handler: handler.createColumn
-    events:
-      - http:
-          path: /column
-          method: POST
+  createColumn: ${file(functions/Columns.yml):createColumn}
+  getColumns: ${file(functions/Columns.yml):createColumns}
+  getColumn: ${file(functions/Columns.yml):createColumn}
+  updateColumn: ${file(functions/Columns.yml):createColumn}
+  deleteColumn: ${file(functions/Columns.yml):createColumn}
 
-  getColumns:
-    handler: handler.getColumns
-    events:
-      - http:
-          path: /columns
-          method: GET
-
-  getColumn:
-    handler: handler.getColumn
-    events:
-      - http:
-          path: /column/{id}
-          method: GET
-
-  updateColumn:
-    handler: handler.updateColumn
-    events:
-      - http:
-          path: /column/{id}
-          method: PUT
-
-  deleteColumn:
-    handler: handler.deleteColumn
-    events:
-      - http:
-          path: /column/{id}
-          method: DELETE
-
-  createCard:
-    handler: handler.createCard
-    events:
-      - http:
-          path: /card
-          method: POST
-  
-  getCards:
-    handler: handler.getCards
-    events:
-      - http:
-          path: /cards
-          method: GET
-  
-  getCard:
-    handler: handler.getCard
-    events:
-      - http:
-          path: /card/{id}
-          method: GET
-
-  updateCard:
-    handler: handler.updateCard
-    events:
-      - http:
-          path: /card/{id}
-          method: PUT
-
-  deleteCard:
-    handler: handler.deleteCard
-    events:
-      - http:
-          path: /card/{id}
-          method: DELETE
+  createCard: ${file(functions/Cards.yml):createCard}
+  getCards: ${file(functions/Cards.yml):getCards}
+  getCard: ${file(functions/Cards.yml):getCard}
+  updateCard: ${file(functions/Cards.yml):updateCard}
+  deleteCard: ${file(functions/Cards.yml):deleteCard}
 
 plugins:
   - serverless-offline
