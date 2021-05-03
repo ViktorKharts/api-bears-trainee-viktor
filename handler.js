@@ -59,11 +59,9 @@ module.exports.getColumns = (event, context, callback) => {
 
 // GET A SINGLE COLUMN //
 module.exports.getColumn = (event, context, callback) => {
-  const id = event.pathParameters.id;
+  const { id } = event.pathParameters;
   const params = {
-    Key: {
-      id: id
-    },
+    Key: { id },
     TableName: columnsTable
   };
 
@@ -75,19 +73,15 @@ module.exports.getColumn = (event, context, callback) => {
 
 // UPDATE A COLUMN //
 module.exports.updateColumn = (event, context, callback) => {
-  const id = event.pathParameters.id;
+  const { id } = event.pathParameters;
   const { paramName, paramValue } = JSON.parse(event.body);
 
   const params = {
-    Key: {
-      id: id
-    },
+    Key: { id },
     TableName: columnsTable,
     ConditionExpression: 'attribute_exists(id)',
     UpdateExpression: `set ${paramName} = :value`,
-    ExpressionAttributeValues: {
-      ':value': paramValue
-    },
+    ExpressionAttributeValues: { ':value': paramValue },
     ReturnValues: 'ALL_NEW'
   };
 
@@ -98,11 +92,9 @@ module.exports.updateColumn = (event, context, callback) => {
 
 // DELETE A COLUMN //
 module.exports.deleteColumn = (event, context, callback) => {
-  const id = event.pathParameters.id;
+  const { id } = event.pathParameters;
   const params = {
-    Key: {
-      id: id
-    },
+    Key: { id },
     TableName: columnsTable,
     ReturnValues: 'ALL_OLD'
   };
@@ -153,11 +145,9 @@ module.exports.getCards = (event, context, callback) => {
 
 // GET A SINGLE CARD //
 module.exports.getCard = (event, context, callback) => {
-  const id = event.pathParameters.id;
+  const { id } = event.pathParameters;
   const params = {
-    Key: {
-      id: id
-    },
+    Key: { id },
     TableName: cardsTable
   };
 
@@ -169,19 +159,15 @@ module.exports.getCard = (event, context, callback) => {
 
 // UPDATE CARD //
 module.exports.updateCard = (event, context, callback) => {
-  const id = event.pathParameters.id;
+  const { id } = event.pathParameters;
   const { paramName, paramValue } = JSON.parse(event.body);
 
   const params = {
-    Key: {
-      id: id
-    },
+    Key: { id },
     TableName: cardsTable,
     ConditionExpression: 'attribute_exists(id)',
     UpdateExpression: `set ${paramName} = :value`,
-    ExpressionAttributeValues: {
-      ':value': paramValue
-    },
+    ExpressionAttributeValues: { ':value': paramValue },
     ReturnValues: 'ALL_NEW'
   };
 
@@ -192,11 +178,9 @@ module.exports.updateCard = (event, context, callback) => {
 
 // DELETE CARD //
 module.exports.deleteCard = (event, context, callback) => {
-  const id = event.pathParameters.id;
+  const { id } = event.pathParameters;
   const params = {
-    Key: {
-      id: id
-    },
+    Key: { id },
     TableName: cardsTable,
     ReturnValues: 'ALL_OLD'
   };

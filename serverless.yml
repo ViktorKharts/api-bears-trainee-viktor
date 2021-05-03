@@ -93,7 +93,6 @@ functions:
           path: /card/{id}
           method: DELETE
 
-
 plugins:
   - serverless-offline
   
