@@ -1,33 +1,33 @@
 createCard:
-  handler: handler.createCard
+  handler: controllers/handlerCards.createCard
   events:
     - http:
         path: /card
         method: POST
 
 getCards:
-  handler: handler.getCards
+  handler: controllers/handlerCards.getCards
   events:
     - http:
         path: /cards
         method: GET
 
 getCard:
-  handler: handler.getCard
+  handler: controllers/handlerCards.getCard
   events:
     - http:
         path: /card/{id}
         method: GET
 
 updateCard:
-  handler: handler.updateCard
+  handler: controllers/handlerCards.updateCard
   events:
     - http:
         path: /card/{id}
         method: PUT
 
 deleteCard:
-  handler: handler.deleteCard
+  handler: controllers/handlerCards.deleteCard
   events:
     - http:
         path: /card/{id}

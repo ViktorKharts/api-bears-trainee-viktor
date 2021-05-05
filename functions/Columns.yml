@@ -1,33 +1,33 @@
 createColumn:
-  handler: handler.createColumn
+  handler: controllers/handlerColumns.createColumn
   events:
     - http:
         path: /column
         method: POST
 
 getColumns:
-  handler: handler.getColumns
+  handler: controllers/handlerColumns.getColumns
   events:
     - http:
         path: /columns
         method: GET
 
 getColumn:
-  handler: handler.getColumn
+  handler: controllers/handlerColumns.getColumn
   events:
     - http:
         path: /column/{id}
         method: GET
 
 updateColumn:
-  handler: handler.updateColumn
+  handler: controllers/handlerColumns.updateColumn
   events:
     - http:
         path: /column/{id}
         method: PUT
 
 deleteColumn:
-  handler: handler.deleteColumn
+  handler: controllers/handlerColumns.deleteColumn
   events:
     - http:
         path: /column/{id}

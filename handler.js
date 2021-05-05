@@ -6,6 +6,9 @@ const ddb = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
 const columnsTable = process.env.COLUMNS_TABLE;
 const cardsTable = process.env.CARDS_TABLE;
 
+// const { createColumnController } = require('./controllers/columns.controllers');
+const ColumnsService = require('./services/columns.services');
+
 // CREATE A RESPONSE //
 function response (statusCode, message) {
   return {
@@ -23,28 +26,39 @@ function sortByDate (a, b) {
 
 // CREATE A COLUMN //
 module.exports.createColumn = (event, context, callback) => {
-  const { title, body } = JSON.parse(event.body);
+  const { title } = JSON.parse(event.body);
 
-  if (!title || title.trim() === '') {
-    return callback(null, response(400, { error: 'Column has to have a title.'}));
+  try {
+    var column = ColumnsService.createColumnService(title);
+    console.log('This is the log from the handler: ', column);
+    callback(null, response(200, column));
+  } catch (err) {
+    callback(null, response(err.statusCode, err));
   };
+}
+// module.exports.createColumn = (event, context, callback) => {
+//   const { title, body } = JSON.parse(event.body);
 
-  const column = {
-    id: uuid4(),
-    createdAt: new Date().toISOString(),
-    title,
-    body
-  };
+//   if (!title || title.trim() === '') {
+//     return callback(null, response(400, { error: 'Column has to have a title.'}));
+//   };
 
-  const params = {
-    TableName: columnsTable,
-    Item: column
-  };
+//   const column = {
+//     id: uuid4(),
+//     createdAt: new Date().toISOString(),
+//     title,
+//     body
+//   };
 
-  return ddb.put(params).promise().then(() => {
-    callback(null, response(201, column))
-  }).catch(err => response(null, response(err.statusCode, err)));
-};
+//   const params = {
+//     TableName: columnsTable,
+//     Item: column
+//   };
+
+//   return ddb.put(params).promise().then(() => {
+//     callback(null, response(201, column))
+//   }).catch(err => response(null, response(err.statusCode, err)));
+// };
 
 // GET ALL COLUMNS //
 module.exports.getColumns = (event, context, callback) => {

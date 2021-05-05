@@ -24,10 +24,10 @@ resources:
 
 functions:
   createColumn: ${file(functions/Columns.yml):createColumn}
-  getColumns: ${file(functions/Columns.yml):createColumns}
-  getColumn: ${file(functions/Columns.yml):createColumn}
-  updateColumn: ${file(functions/Columns.yml):createColumn}
-  deleteColumn: ${file(functions/Columns.yml):createColumn}
+  getColumns: ${file(functions/Columns.yml):getColumns}
+  getColumn: ${file(functions/Columns.yml):getColumn}
+  updateColumn: ${file(functions/Columns.yml):updateColumn}
+  deleteColumn: ${file(functions/Columns.yml):deleteColumn}
 
   createCard: ${file(functions/Cards.yml):createCard}
   getCards: ${file(functions/Cards.yml):getCards}
