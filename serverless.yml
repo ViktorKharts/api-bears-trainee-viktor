@@ -14,8 +14,7 @@ provider:
   environment: ${self:custom.settings}
   region: us-east-2
   iamRoleStatements:
-    - ${file(iam/ColumnsTableIAM.yml):ColumnsTableIAM}
-    - ${file(iam/CardsTableIAM.yml):CardsTableIAM}
+    - ${file(iam/DynamoDBIAM.yml):DynamoDBIAM}
 
 resources:
   Resources:

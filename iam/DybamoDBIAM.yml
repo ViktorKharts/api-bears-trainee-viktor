@@ -1,4 +1,4 @@
-CardsTableIAM:
+DynamoDBIAM:
   Effect: "Allow"
   Action:
     - dynamodb:DescribeTable
@@ -8,4 +8,5 @@ CardsTableIAM:
     - dynamodb:UpdateItem
     - dynamodb:DeleteItem
   Resource:
+    - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.COLUMNS_TABLE}"
     - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.CARDS_TABLE}"

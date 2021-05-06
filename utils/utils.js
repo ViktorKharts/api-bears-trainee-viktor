@@ -1,9 +1,7 @@
 const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
-
 const { ErrorHandler } = require('../helpers');
 
-// CREATE ITEM WITHIN A TABLE UTIL //
 module.exports.createInstanceUtil = (TableName, Item) => {
   const params = {
     TableName,
@@ -14,11 +12,10 @@ module.exports.createInstanceUtil = (TableName, Item) => {
     return ddb.put(params).promise();
   } catch (err) {
     console.log('This is from the "create" util:', err);
-    throw new ErrorHandler("Failed to create a new record in ddb.", err);
+    throw new ErrorHandler(`Failed to create a new record in ${TableName}`, 400);
   };
 };
 
-// GET ALL ITEMS FROM A TABLE UTIL //
 exports.getAllItemsUtil = TableName => {
   const params = {
     TableName
@@ -28,11 +25,10 @@ exports.getAllItemsUtil = TableName => {
     return ddb.scan(params).promise();
   } catch (err) {
     console.log('This is from the "get all" util:', err);
-    throw new ErrorHandler("Failed to scan " + TableName + " table.");
+    throw new ErrorHandler(`Failed to scan ${TableName}`, 400);
   };
 };
 
-// GET SINGLE ITEM FROM A TABLE UTIL //
 exports.getItemUtil = (TableName, id) => {
   const params = {
     Key: { id },
@@ -43,11 +39,10 @@ exports.getItemUtil = (TableName, id) => {
     return ddb.get(params).promise();
   } catch (err) {
     console.log('This is from the "get one" util:', err);
-    throw new ErrorHandler("Faild to get an item from the " + TableName);
+    throw new ErrorHandler(`Faild to get an item from the ${TableName}`, 400);
   };
 };
 
-// UPDATE ITEM UTIL //
 exports.updateItemUtil = (TableName, id, paramName, paramValue) => {
   const params = {
     Key: { id },
@@ -62,11 +57,10 @@ exports.updateItemUtil = (TableName, id, paramName, paramValue) => {
     return ddb.update(params).promise();
   } catch (err) {
     console.log('This is from the "update" util:', err);
-    throw new ErrorHandler("Failed to update item in the " + TableName);
+    throw new ErrorHandler(`Failed to update item in the ${TableName}`, 400);
   };
 };
 
-// DELETE ITEM UTIL //
 exports.deleteItemUtil = (TableName, id) => {
   const params = {
     Key: { id },
@@ -78,6 +72,6 @@ exports.deleteItemUtil = (TableName, id) => {
     return ddb.delete(params).promise();
   } catch (err) {
     console.log('This is from the "delete" util:', err);
-    throw new ErrorHandler("Failed to delete item from the " + TableName);
+    throw new ErrorHandler(`Failed to delete item from the ${TableName}`, 400);
   };
 };

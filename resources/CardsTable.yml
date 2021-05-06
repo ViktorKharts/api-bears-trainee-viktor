@@ -3,7 +3,7 @@ CardsTable:
   Properties:
     AttributeDefinitions:
     - AttributeName: "id"
-      AttrbuteType: "S"
+      AttributeType: "S"
     KeySchema:
     - AttributeName: "id"
       KeyType: "HASH"
