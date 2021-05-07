@@ -1,16 +1,11 @@
-const { createCardService, 
-        getCardsService, 
-        getCardService, 
-        updateCardService,
-        deleteCardService } = require('../services/cards.services');
+const cardsServices = require('../services/cardsServices');
 const { response } = require('../helpers');
-const cardsTable = process.env.CARDS_TABLE;
 
-module.exports.createCard = async (event, context, callback) => {
+createCard = async (event, context, callback) => {
   const { title, columnId } = JSON.parse(event.body);
 
   try {
-    const card = await createCardService(cardsTable, title, columnId);
+    const card = await cardsServices.createCard(title, columnId);
     callback(null, response(200, card));
   } catch (err) {
     console.log('This is a "create card" handler error: ', err);
@@ -18,10 +13,10 @@ module.exports.createCard = async (event, context, callback) => {
   };
 };
 
-module.exports.getCards = async (event, context, callback) => {
+getCards = async (event, context, callback) => {
 
   try {
-    const cards = await getCardsService(cardsTable);
+    const cards = await cardsServices.getCards();
     callback(null, response(200, cards.Items));
   } catch (err) {
     console.log('This is a "get cards" handler error: ', err);
@@ -29,11 +24,11 @@ module.exports.getCards = async (event, context, callback) => {
   };
 };
 
-module.exports.getCard = async (event, context, callback) => {
+getCard = async (event, context, callback) => {
   const { id } = event.pathParameters;
 
   try {
-    const card = await getCardService(cardsTable, id);
+    const card = await cardsServices.getCard(id);
     callback(null, response(200, card));
   } catch (err) {
     console.log('This is a "get card" handler error: ', err);
@@ -41,12 +36,12 @@ module.exports.getCard = async (event, context, callback) => {
   };
 };
 
-module.exports.updateCard = async (event, context, callback) => {
+updateCard = async (event, context, callback) => {
   const { id } = event.pathParameters;
   const { paramName, paramValue } = JSON.parse(event.body);
 
   try {
-    const card = await updateCardService(cardsTable, id, paramName, paramValue);
+    const card = await cardsServices.updateCard(id, paramName, paramValue);
     callback(null, response(200, card));
   } catch (err) {
     console.log('This is a "update card" handler error: ', err);
@@ -54,14 +49,16 @@ module.exports.updateCard = async (event, context, callback) => {
   };
 };
 
-module.exports.deleteCard = async (event, context, callback) => {
+deleteCard = async (event, context, callback) => {
   const { id } = event.pathParameters;
 
   try {
-    const card = await deleteCardService(cardsTable, id);
+    const card = await cardsServices.deleteCard(id);
     callback(null, response(200, "Card successfully deleted"));
   } catch (err) {
     console.log('This is a "delete card" handler error: ', err);
     callback(null, response(err.statusCode, err));
   };
 };
+
+module.exports = { createCard, getCards, getCard, updateCard, deleteCard };

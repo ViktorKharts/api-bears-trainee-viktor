@@ -1,16 +1,11 @@
-const { createColumnService, 
-        getColumnsService, 
-        getColumnService, 
-        updateColumnService,
-        deleteColumnService } = require('../services/columns.services');
+const columnsServices = require('../services/columnsServices');
 const { response } = require('../helpers');
-const columnsTable = process.env.COLUMNS_TABLE;
 
-module.exports.createColumn = async (event, context, callback) => {
+createColumn = async (event, context, callback) => {
   const { title } = JSON.parse(event.body);
 
   try {
-    const column = await createColumnService(columnsTable, title);
+    const column = await columnsServices.createColumn(title);
     callback(null, response(200, column));
   } catch (err) {
     console.log('This is a "create column" handler error: ', err);
@@ -18,10 +13,10 @@ module.exports.createColumn = async (event, context, callback) => {
   };
 };
 
-module.exports.getColumns = async (event, context, callback) => {
+getColumns = async (event, context, callback) => {
 
   try {
-    const columns = await getColumnsService(columnsTable);
+    const columns = await columnsServices.getColumns();
     callback(null, response(200, columns.Items));
   } catch (err) {
     console.log('This is a "get columns" handler error: ', err);
@@ -29,11 +24,11 @@ module.exports.getColumns = async (event, context, callback) => {
   };
 };
 
-module.exports.getColumn = async (event, context, callback) => {
+getColumn = async (event, context, callback) => {
   const { id } = event.pathParameters;
 
   try {
-    const column = await getColumnService(columnsTable, id);
+    const column = await columnsServices.getColumn(id);
     callback(null, response(200, column));
   } catch (err) {
     console.log('This is a "get column" handler error: ', err);
@@ -41,12 +36,13 @@ module.exports.getColumn = async (event, context, callback) => {
   };
 };
 
-module.exports.updateColumn = async (event, context, callback) => {
+updateColumn = async (event, context, callback) => {
   const { id } = event.pathParameters;
   const { paramName, paramValue } = JSON.parse(event.body);
 
   try {
-    const column = await updateColumnService(columnsTable, id, paramName, paramValue);
+    const column = await columnsServices.updateColumn(id, paramName, paramValue);
+    console.log('This is the log: ', column);
     callback(null, response(200, column));
   } catch (err) {
     console.log('This is a "update column" handler error: ', err);
@@ -54,14 +50,16 @@ module.exports.updateColumn = async (event, context, callback) => {
   };
 };
 
-module.exports.deleteColumn = async (event, context, callback) => {
+deleteColumn = async (event, context, callback) => {
   const { id } = event.pathParameters;
   
   try {
-    const column = await deleteColumnService(columnsTable, id);
+    const column = await columnsServices.deleteColumn(id);
     callback(null, response(200, "Column successfully deleted"));
   } catch (err) {
     console.log('This is a "delete column" handler error: ', err);
     callback(null, response(err.statusCode, err));
   };
 };
+
+module.exports = { createColumn, getColumns, getColumn, updateColumn, deleteColumn };

@@ -13,7 +13,7 @@ const response = (statusCode, message) => {
 
 const checkString = str => {
   if (!str || str.trim() === '') {
-    throw new ErrorHandler('Please, provide an attribute name.', 304);
+    throw new ErrorHandler('Please, provide a valid input.', 304);
   } else return true;
 }
 
