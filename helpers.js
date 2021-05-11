@@ -4,14 +4,14 @@ function ErrorHandler (message, status) {
   this.name = "Exception defined by the user.";
 };
 
-const response = (statusCode, message) => {
+response = (statusCode, message) => {
   return {
     statusCode,
     body: JSON.stringify(message)
   }
 };
 
-const checkString = str => {
+checkString = str => {
   if (!str || str.trim() === '') {
     throw new ErrorHandler('Please, provide a valid input.', 304);
   } else return true;

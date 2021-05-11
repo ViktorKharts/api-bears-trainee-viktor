@@ -42,7 +42,6 @@ updateColumn = async (event, context, callback) => {
 
   try {
     const column = await columnsServices.updateColumn(id, paramName, paramValue);
-    console.log('This is the log: ', column);
     callback(null, response(200, column));
   } catch (err) {
     console.log('This is a "update column" handler error: ', err);
