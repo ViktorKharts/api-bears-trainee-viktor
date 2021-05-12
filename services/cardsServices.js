@@ -15,9 +15,9 @@ getCard = async id => {
   return await cardsRepository.getCard(id);
 };
 
-updateCard = async (id, paramName, paramValue) => {
+updateCard = async (id, paramTitle, paramDesc) => {
 
-  return await cardsRepository.updateCard(id, paramName, paramValue);
+  return await cardsRepository.updateCard(id, paramTitle, paramDesc);
 };
 
 deleteCard = async id => {

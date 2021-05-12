@@ -3,12 +3,13 @@ const uuid4 = require('uuid4');
 
 const { checkString } = require('../helpers');
 const TableName = process.env.CARDS_TABLE;
+const date = new Date()
 
 createCard = async (title, columnId) => {
   if (checkString(title)) {
     const Item = {
       id: uuid4(),
-      createdAt: new Date().toISOString(),
+      createdAt: date.valueOf(),
       title,
       columnId,
       description: "Your description here"
@@ -40,14 +41,19 @@ getCard = async id => {
   return await dbquery.getItem(params);
 };
 
-updateCard = async (id, paramName, paramValue) => {
-  if(checkString(paramValue)) {
+updateCard = async (id, paramTitle, paramDesc) => {
+  if(checkString(paramTitle) && checkString(paramDesc)) {
     const params = {
       Key: { id },
       TableName,
       ConditionExpression: 'attribute_exists(id)',
-      UpdateExpression: `set ${paramName} = :value`,
-      ExpressionAttributeValues: { ':value': paramValue },
+      UpdateExpression: `
+        set title = :t, description = :d
+      `,
+      ExpressionAttributeValues: { 
+        ':t': paramTitle,
+        ':d': paramDesc 
+      },
       ReturnValues: 'ALL_NEW'
     };
 

@@ -3,12 +3,13 @@ const uuid4 = require('uuid4');
 
 const { checkString } = require('../helpers');
 const TableName = process.env.COLUMNS_TABLE;
+const date = new Date()
 
 createColumn = async title => {
   if (checkString(title)) {
     const Item = {
       id: uuid4(),
-      createdAt: new Date().toISOString(),
+      createdAt: date.valueOf(),
       title
     };
 

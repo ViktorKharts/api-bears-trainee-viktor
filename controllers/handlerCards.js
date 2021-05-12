@@ -38,10 +38,10 @@ getCard = async (event, context, callback) => {
 
 updateCard = async (event, context, callback) => {
   const { id } = event.pathParameters;
-  const { paramName, paramValue } = JSON.parse(event.body);
+  const { paramTitle, paramDesc } = JSON.parse(event.body);
 
   try {
-    const card = await cardsServices.updateCard(id, paramName, paramValue);
+    const card = await cardsServices.updateCard(id, paramTitle, paramDesc);
     callback(null, response(200, card));
   } catch (err) {
     console.log('This is a "update card" handler error: ', err);
