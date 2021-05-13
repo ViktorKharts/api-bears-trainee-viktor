@@ -39,13 +39,13 @@ getColumn = async id => {
   return await dbquery.getItem(params);
 };
 
-updateColumn = async (id, paramName, paramValue) => {
+updateColumn = async (id, paramValue) => {
   if(checkString(paramValue)) {
     const params = {
       Key: { id },
       TableName,
       ConditionExpression: 'attribute_exists(id)',
-      UpdateExpression: `set ${paramName} = :value`,
+      UpdateExpression: `set title = :value`,
       ExpressionAttributeValues: { ':value': paramValue },
       ReturnValues: 'ALL_NEW'
     };

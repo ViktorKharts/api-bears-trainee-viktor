@@ -15,9 +15,9 @@ getColumn = async id => {
   return await columnsRepository.getColumn(id);
 };
 
-updateColumn = async (id, paramName, paramValue) => {
+updateColumn = async (id, paramValue) => {
 
-  return await columnsRepository.updateColumn(id, paramName, paramValue);
+  return await columnsRepository.updateColumn(id, paramValue);
 };
 
 deleteColumn = async id => {

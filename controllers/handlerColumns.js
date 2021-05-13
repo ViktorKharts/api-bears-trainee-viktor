@@ -38,10 +38,10 @@ getColumn = async (event, context, callback) => {
 
 updateColumn = async (event, context, callback) => {
   const { id } = event.pathParameters;
-  const { paramName, paramValue } = JSON.parse(event.body);
+  const { paramValue } = JSON.parse(event.body);
 
   try {
-    const column = await columnsServices.updateColumn(id, paramName, paramValue);
+    const column = await columnsServices.updateColumn(id, paramValue);
     callback(null, response(200, column));
   } catch (err) {
     console.log('This is a "update column" handler error: ', err);
