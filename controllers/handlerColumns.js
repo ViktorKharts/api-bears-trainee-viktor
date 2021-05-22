@@ -2,10 +2,11 @@ const columnsServices = require('../services/columnsServices');
 const { response } = require('../helpers');
 
 createColumn = async (event, context, callback) => {
-  const { title } = JSON.parse(event.body);
+  const { title, orderId } = JSON.parse(event.body);
+  console.log(event)
 
   try {
-    const column = await columnsServices.createColumn(title);
+    const column = await columnsServices.createColumn(title, orderId);
     callback(null, response(200, column));
   } catch (err) {
     console.log('This is a "create column" handler error: ', err);
@@ -38,10 +39,11 @@ getColumn = async (event, context, callback) => {
 
 updateColumn = async (event, context, callback) => {
   const { id } = event.pathParameters;
-  const { paramValue } = JSON.parse(event.body);
+  const { paramTitle, paramOrderId } = JSON.parse(event.body);
+  const orderId = parseInt(paramOrderId)
 
   try {
-    const column = await columnsServices.updateColumn(id, paramValue);
+    const column = await columnsServices.updateColumn(id, paramTitle, orderId);
     callback(null, response(200, column));
   } catch (err) {
     console.log('This is a "update column" handler error: ', err);
@@ -50,10 +52,11 @@ updateColumn = async (event, context, callback) => {
 };
 
 deleteColumn = async (event, context, callback) => {
-  const { id } = event.pathParameters;
+  let { id, orderId } = event.pathParameters;
+  orderId = parseInt(orderId)
   
   try {
-    const column = await columnsServices.deleteColumn(id);
+    const column = await columnsServices.deleteColumn(id, orderId);
     callback(null, response(200, "Column successfully deleted"));
   } catch (err) {
     console.log('This is a "delete column" handler error: ', err);

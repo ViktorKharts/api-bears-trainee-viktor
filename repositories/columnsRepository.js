@@ -3,14 +3,14 @@ const uuid4 = require('uuid4');
 
 const { checkString } = require('../helpers');
 const TableName = process.env.COLUMNS_TABLE;
-const date = new Date()
 
-createColumn = async title => {
+createColumn = async (title, orderId) => {
   if (checkString(title)) {
     const Item = {
       id: uuid4(),
-      createdAt: date.valueOf(),
-      title
+      createdAt: new Date().toISOString(),
+      title,
+      orderId
     };
 
     const params = {
@@ -39,14 +39,19 @@ getColumn = async id => {
   return await dbquery.getItem(params);
 };
 
-updateColumn = async (id, paramValue) => {
-  if(checkString(paramValue)) {
+updateColumn = async (id, paramTitle, orderId) => {
+  if(checkString(paramTitle)) {
     const params = {
-      Key: { id },
+      Key: { id, orderId },
       TableName,
       ConditionExpression: 'attribute_exists(id)',
-      UpdateExpression: `set title = :value`,
-      ExpressionAttributeValues: { ':value': paramValue },
+      UpdateExpression: `
+        set title = :t, orderId = :o
+      `,
+      ExpressionAttributeValues: { 
+        ':t': paramTitle,
+        ':o': orderId 
+      },
       ReturnValues: 'ALL_NEW'
     };
 
@@ -54,9 +59,10 @@ updateColumn = async (id, paramValue) => {
   };
 };
 
-deleteColumn = async id => {
+deleteColumn = async (id, orderId) => {
+  
   const params = {
-    Key: { id },
+    Key: { id, orderId },
     TableName
   };
 

@@ -30,5 +30,5 @@ deleteColumn:
   handler: controllers/handlerColumns.deleteColumn
   events:
     - http:
-        path: /column/{id}
+        path: /column/{id}/{orderId}
         method: DELETE
