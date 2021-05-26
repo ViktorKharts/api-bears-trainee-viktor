@@ -24,6 +24,7 @@ resources:
 functions:
   createColumn: ${file(functions/Columns.yml):createColumn}
   getColumns: ${file(functions/Columns.yml):getColumns}
+  getColumnsByGSI: ${file(functions/Columns.yml):getColumnsByGSI}
   getColumn: ${file(functions/Columns.yml):getColumn}
   updateColumn: ${file(functions/Columns.yml):updateColumn}
   deleteColumn: ${file(functions/Columns.yml):deleteColumn}
