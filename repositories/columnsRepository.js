@@ -40,7 +40,6 @@ getColumnsByGSI = async () => {
     TableName,
     IndexName: 'status-orderId-index',
     KeyConditionExpression: '#status = :s and #orderId >= :o',
-    Limit: 5,
     ExpressionAttributeValues: {
       ':s': 'created',
       ':o': 0
