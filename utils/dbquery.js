@@ -22,6 +22,16 @@ getAllItems = params => {
   };
 };
 
+getItemsByGSI = params => {
+
+  try {
+    return ddb.query(params).promise();
+  } catch (err) {
+    console.log('This is from the "get items by GSI" util:', err);
+    throw new ErrorHandler(`Failed to query ${params.TableName}`, 400);
+  };
+};
+
 getItem = params => {
 
   try {
@@ -52,4 +62,4 @@ deleteItem = params => {
   };
 };
 
-module.exports = { createInstance, getAllItems, getItem, updateItem, deleteItem };
+module.exports = { createInstance, getAllItems, getItemsByGSI, getItem, updateItem, deleteItem };

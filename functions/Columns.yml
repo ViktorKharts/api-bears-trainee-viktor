@@ -12,6 +12,13 @@ getColumns:
         path: /columns
         method: GET
 
+getColumnsByGSI:
+  handler: controllers/handlerColumns.getColumnsByGSI
+  events:
+    - http:
+        path: /sortedcolumns
+        method: GET
+
 getColumn:
   handler: controllers/handlerColumns.getColumn
   events:
@@ -23,12 +30,12 @@ updateColumn:
   handler: controllers/handlerColumns.updateColumn
   events:
     - http:
-        path: /column/{id}
+        path: /column/{id}/{createdAt}
         method: PUT
 
 deleteColumn:
   handler: controllers/handlerColumns.deleteColumn
   events:
     - http:
-        path: /column/{id}
+        path: /column/{id}/{createdAt}
         method: DELETE

@@ -3,15 +3,20 @@ const uuid4 = require('uuid4');
 
 const { checkString } = require('../helpers');
 const TableName = process.env.COLUMNS_TABLE;
-const date = new Date()
 
-createColumn = async title => {
+createColumn = async (id, title, orderId) => {
   if (checkString(title)) {
-    const Item = {
-      id: uuid4(),
-      createdAt: date.valueOf(),
-      title
-    };
+    if (!id) {
+      id = uuid4()
+    }
+
+    Item = {
+      id,
+      createdAt: new Date().toISOString(),
+      title,
+      orderId,
+      status: "created"
+    }
 
     const params = {
       TableName,
@@ -30,6 +35,24 @@ getColumns = async () => {
   return await dbquery.getAllItems(params);
 };
 
+getColumnsByGSI = async () => {
+  const params = {
+    TableName,
+    IndexName: 'status-orderId-index',
+    KeyConditionExpression: '#status = :s and #orderId >= :o',
+    ExpressionAttributeValues: {
+      ':s': 'created',
+      ':o': 0
+    },
+    ExpressionAttributeNames: {
+      '#status': 'status',
+      '#orderId': 'orderId'
+    }
+  };
+
+  return await dbquery.getItemsByGSI(params);
+};
+
 getColumn = async id => {
   const params = {
     Key: { id },
@@ -39,14 +62,19 @@ getColumn = async id => {
   return await dbquery.getItem(params);
 };
 
-updateColumn = async (id, paramValue) => {
-  if(checkString(paramValue)) {
+updateColumn = async (id, createdAt, title, orderId) => {
+  if(checkString(title)) {
     const params = {
-      Key: { id },
+      Key: { id, createdAt },
       TableName,
       ConditionExpression: 'attribute_exists(id)',
-      UpdateExpression: `set title = :value`,
-      ExpressionAttributeValues: { ':value': paramValue },
+      UpdateExpression: `
+        set title = :t, orderId = :o
+      `,
+      ExpressionAttributeValues: { 
+        ':t': title,
+        ':o': orderId 
+      },
       ReturnValues: 'ALL_NEW'
     };
 
@@ -54,13 +82,14 @@ updateColumn = async (id, paramValue) => {
   };
 };
 
-deleteColumn = async id => {
+deleteColumn = async (id, createdAt) => {
+  
   const params = {
-    Key: { id },
+    Key: { id, createdAt },
     TableName
   };
 
   return await dbquery.deleteItem(params);
 };
 
-module.exports = { createColumn, getColumns, getColumn, updateColumn, deleteColumn };
+module.exports = { createColumn, getColumns, getColumnsByGSI, getColumn, updateColumn, deleteColumn };

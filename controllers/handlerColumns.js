@@ -2,10 +2,10 @@ const columnsServices = require('../services/columnsServices');
 const { response } = require('../helpers');
 
 createColumn = async (event, context, callback) => {
-  const { title } = JSON.parse(event.body);
+  const { id, title, orderId } = JSON.parse(event.body);
 
   try {
-    const column = await columnsServices.createColumn(title);
+    const column = await columnsServices.createColumn(id, title, orderId);
     callback(null, response(200, column));
   } catch (err) {
     console.log('This is a "create column" handler error: ', err);
@@ -24,6 +24,17 @@ getColumns = async (event, context, callback) => {
   };
 };
 
+getColumnsByGSI = async (event, context, callback) => {
+
+  try {
+    const columns = await columnsServices.getColumnsByGSI();
+    callback(null, response(200, columns.Items));
+  } catch (err) {
+    console.log('This is a "get columns by GSI" handler error: ', err);
+    callback(null, response(err.statusCode, err));
+  };
+};
+
 getColumn = async (event, context, callback) => {
   const { id } = event.pathParameters;
 
@@ -37,23 +48,23 @@ getColumn = async (event, context, callback) => {
 };
 
 updateColumn = async (event, context, callback) => {
-  const { id } = event.pathParameters;
-  const { paramValue } = JSON.parse(event.body);
+  const { id, createdAt } = event.pathParameters;
+  const { title, orderId } = JSON.parse(event.body);
 
   try {
-    const column = await columnsServices.updateColumn(id, paramValue);
+    const column = await columnsServices.updateColumn(id, createdAt, title, orderId);
     callback(null, response(200, column));
   } catch (err) {
-    console.log('This is a "update column" handler error: ', err);
+    console.log('This is an "update column" handler error: ', err);
     callback(null, response(err.statusCode, err));
   };
 };
 
 deleteColumn = async (event, context, callback) => {
-  const { id } = event.pathParameters;
+  let { id, createdAt } = event.pathParameters;
   
   try {
-    const column = await columnsServices.deleteColumn(id);
+    const column = await columnsServices.deleteColumn(id, createdAt);
     callback(null, response(200, "Column successfully deleted"));
   } catch (err) {
     console.log('This is a "delete column" handler error: ', err);
@@ -61,4 +72,4 @@ deleteColumn = async (event, context, callback) => {
   };
 };
 
-module.exports = { createColumn, getColumns, getColumn, updateColumn, deleteColumn };
+module.exports = { createColumn, getColumns, getColumnsByGSI, getColumn, updateColumn, deleteColumn };

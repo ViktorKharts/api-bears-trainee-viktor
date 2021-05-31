@@ -2,10 +2,10 @@ const cardsServices = require('../services/cardsServices');
 const { response } = require('../helpers');
 
 createCard = async (event, context, callback) => {
-  const { title, columnId } = JSON.parse(event.body);
+  const { title, columnId, orderId } = JSON.parse(event.body);
 
   try {
-    const card = await cardsServices.createCard(title, columnId);
+    const card = await cardsServices.createCard(title, columnId, orderId);
     callback(null, response(200, card));
   } catch (err) {
     console.log('This is a "create card" handler error: ', err);
@@ -38,13 +38,13 @@ getCard = async (event, context, callback) => {
 
 updateCard = async (event, context, callback) => {
   const { id } = event.pathParameters;
-  const { paramTitle, paramDesc } = JSON.parse(event.body);
+  const { paramColumnId, paramTitle, paramDesc, paramOrderId } = JSON.parse(event.body);
 
   try {
-    const card = await cardsServices.updateCard(id, paramTitle, paramDesc);
+    const card = await cardsServices.updateCard(id, paramColumnId, paramTitle, paramDesc, paramOrderId);
     callback(null, response(200, card));
   } catch (err) {
-    console.log('This is a "update card" handler error: ', err);
+    console.log('This is an "update card" handler error: ', err);
     callback(null, response(err.statusCode, err));
   };
 };
